@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="nitesh">
+  <meta name="Keywords" content="dashboard">
+  <meta name="Description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="icons/favicon.ico"/>
+  <script type="text/javascript" src="js/main_charts.js"></script>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/main.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <title>GIPCL</title>
+  <style>
+
+  .value-container{
+
+    width: 100px;
+    height: 100px;
+    margin: auto;
+}
+.dash-container{
+display: flex;
+margin-top: 20px;
+}
+
+.value-container p{
+text-align:center;
+}
+</style>
+ </head>
+ <body>
+<div id='loader' class='loader-container' ><div style='position: fixed;height: 250px;'><div class="loader">Loading...</div></div><div id='loadstatus' style='width: 100%;position: fixed;left: 0px;text-align: center;'></div></div>
+ <div id='main' style='filter:blur(4px)'>
+<nav id='header' class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">GIPCL</a>
+    
+    <ul class="nav navbar-nav">
+      <li class="dropdown"><a class="dropdown-toggle" style='float:right;padding: 5px;' data-toggle="dropdown" href="#"><span style='font-size: 25px;' class="glyphicon glyphicon-menu-hamburger"></span></a>
+        <ul class="dropdown-menu">
+           <li><a class='active' href="home.html">Home</a></li>
+          <li><a  href="dashboard.html">Dashboard</a></li>
+          <li><a href="#">Reports</a></li>
+          <li><a href="#">Charts</a></li>
+          <li><a href="#">Account</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+      </li>
+    </ul>
+	</div>
+  </div>
+</nav>
+<div style=''>
+<h5 style='margin-left: 10px;float: left;'><span id='time'>28 Feb 2020 12:01 PM</span>&nbsp;&nbsp;<span class='glyphicon glyphicon-refresh'></span></h5>
+<h5 style='margin-right: 10px;float: right;'>Auto Refresh in 20 sec</h5>
+</div>
+<div class='container-box' style='width:100%;height:250px;box-shadow:0px 0px 0px 0px'>
+<div style='width:100%' id='pai-dash'>
+</div>
+</div>
+
+<div class='container-box' style='height:160px'>
+<div class='dash-container' style=''>
+
+<div class='value-container' style=''>
+<p>CONVENTIONAL GENERATION</p>
+<p style='font-size: x-large;color: #E91E63;'><span id='Tconventialgen'>221.57</span> MW</p>
+</div>
+
+<div class='value-container' style=''>
+<p>RENEWABLE GENERATION</p>
+<p style='font-size: x-large;color: #E91E63;'><span id='Trenewablegen'>221.57</span> MW</p>
+</div>
+
+<div class='value-container' style=''>
+<p>TOTAL GENERATION</p>
+<p style='font-size: x-large;color: #F44336;'><span id='Tgen'>221.57</span> MW</p>
+</div>
+</div>
+</div>
+
+<div class='container-box' style='height:350px'>
+<div id='cluster-bar'>
+
+<div class='dash-container' style=''>
+
+
+<div class='value-container' style=''>
+<p>CONVENTIONAL</p>
+<p style='font-size: x-large;color: #F44336;'><span id='convential'>221.57</span> MW</p>
+</div>
+
+
+<div class='value-container' style=''>
+<p>WIND</p>
+<p style='font-size: x-large;color: #E91E63;'><span id='wind'>221.57</span> MW</p>
+</div>
+
+</div>
+
+<div class='dash-container' style=''>
+
+
+<div class='value-container' style=''>
+<p>SOLAR</p>
+<p style='font-size: x-large;color: #9C27B0;'><span id='solar'>221.57</span> MW</p>
+</div>
+
+
+<div class='value-container' style=''>
+<p>SOLAR-R</p>
+<p style='font-size: x-large;color:#3F51B5'><span id='solarRT'>221.57</span> MW</p>
+</div>
+
+</div>
+
+</div></div>
+</div>
+<script type="text/javascript">
+
+document.getElementById('Tconventialgen').innerHTML=conventialTC.toFixed(2);
+document.getElementById('Trenewablegen').innerHTML=(windTC+solar+solarRTC).toFixed(2);
+document.getElementById('Tgen').innerHTML=(conventialTC+windTC+solar+solarRTC).toFixed(2);
+document.getElementById('convential').innerHTML=conventialTC.toFixed(2);
+document.getElementById('wind').innerHTML=windTC.toFixed(2);
+document.getElementById('solar').innerHTML=solar.toFixed(2);
+document.getElementById('solarRT').innerHTML=solarRTC.toFixed(2);
+
+setInterval(function(){d=new Date();document.getElementById('time').innerHTML=d.toLocaleDateString()+' '+d.toLocaleTimeString();},1000)
+var myChart = echarts.init(document.getElementById('pai-dash'), 'light');
+var app = {};
+option = null;
+option = {
+    title: {
+        text: ''
+    },
+    legend: {
+        data: ['CONVENTIONAL', 'WIND', 'SOLAR', 'SOLAR-R']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: [
+        {
+            type: 'category',
+            boundaryGap: false,
+            data: conventialgipcl.object
+        }
+    ],
+    yAxis: [
+        {
+            type: 'value'
+        }
+    ],
+    series: [
+        {
+            name: 'CONVENTIONAL',
+            type: 'line',
+            stack: 'total',
+            areaStyle: {},
+            data: convential
+        },
+        {
+            name: 'WIND',
+            type: 'line',
+            stack: 'total',
+            areaStyle: {},
+            data: wind
+        },
+        {
+            name: 'SOLAR',
+            type: 'line',
+            stack: 'total',
+            areaStyle: {},
+            data: solarrooftop.value
+        },
+        {
+            name: 'SOLAR-R',
+            type: 'line',
+            stack: 'total',
+            areaStyle: {},
+            data: solarrooftop.value
+        }
+        
+    ]
+};
+
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+
+
+       </script>
+
+<script>
+
+window.onload = function(){
+
+
+}
+
+</script>
+	 
+ </body>
+</html>

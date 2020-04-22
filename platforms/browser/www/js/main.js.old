@@ -1,0 +1,371 @@
+function dashtab(d){
+var o = document.getElementsByClassName('g-container');
+for (n=0;n<(o.length-1);n++){
+		console.log(o[n])
+		o[n].style.display='none';
+		}
+document.getElementById(d).style.display='block';
+}
+setTimeout(function(){
+l=document.getElementById('loader');m=document.getElementById('main');l.style.display='none';m.style.filter='blur(0px)';
+
+},5000)
+
+var SLPP = ['13','14','15','18']
+var SLPP1 = ['13','14']
+var SLPP2 = ['15','18']
+var GIPCL1 = ['42','43','44','45']
+var GIPCL2 = ['48','49']
+var SLPP1OBJ,SLPP1VAL,SLPP2OBJ,SLPP2VAL,GIPCL1OBJ,GIPCL1VAL,GIPCL2OBJ,GIPCL2VAL = [];
+var conventialGen = {}
+var kotadapithaGen = {}
+var rojmalGen = {} 
+var kuchhdiGen = {}
+function xhrreq(url){
+s = document.getElementById('loadstatus');
+s.innerHTML = 'Loading: '+url
+var data
+var xhttp = new XMLHttpRequest();
+xhttp.withCredentials = true;
+xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+       // Typical action to be performed when the document is ready:
+      data = JSON.parse(xhttp.responseText);
+    }
+};
+xhttp.open("GET", url, false);
+xhttp.send();
+return data;
+}
+
+function arrsum(a,b){
+      var c = [];
+      for (var i = 0; i < Math.max(a.length, b.length); i++) {
+        c.push(parseFloat(((a[i] || 0) + (b[i] || 0)).toFixed(2)));
+      }
+      return c;
+}
+
+function btwnlst(t,m){
+var c = new Date();
+var d = new Date(t['object'][t['object'].length-1]);
+var r = new Date(c.getTime() - 1000 * (60*m));
+var rt;
+if(d>r){rt =t['value'][(t['value'].length)-1];}else{rt = 0;}
+return (rt)
+}
+/*
+var convential = function() {
+
+function switchcase(c,o,v){
+
+switch(c) {
+  case (SLPP1.indexOf(c) !=-1 ):
+    SLPP1OBJ.push(o);
+    SLPP1VAL.push(v)
+    break;
+  case (SLPP2.indexOf(c) !=-1 ):
+    SLPP2OBJ.push(o);
+    SLPP2VAL.push(v)
+    break;
+  case (GIPCL1.indexOf(c) !=-1 ):
+    GIPCL1OBJ.push(o);
+    GIPCL1VAL.push(v)
+    break;
+  case (GIPCL2.indexOf(c) !=-1 ):
+    GIPCL2OBJ.push(o);
+    GIPCL2VAL.push(v)
+    break;
+  default:
+    // code block
+}
+
+}
+
+
+ function form(m){
+   d = {}
+   r = xhrreq('http://192.168.1.216:5005/rest/convential-gipcl/'+m);
+   t = Object.keys(r).sort()
+   
+   for (n in t)
+   {
+	   var total = 0;
+	  // console.log(t[n])
+	if (t[n] != 'meterid')
+	{
+	   o = Object.keys(r[t[n]])
+	   for (k in o )
+	   {
+		if (SLPP.indexOf(o[k]) !=-1 ){
+		total +=(r[t[n]][o[k]])/1000
+		switchcase(o[k],t[n],total)
+	   }
+		else {total +=(r[t[n]][o[k]]);switchcase(o[k],t[n],total)}
+		} 
+	   
+	   
+	
+   }
+   conventialGen[t[n]] = total.toFixed(1)
+   }
+  var object = Object.keys(conventialGen)
+  object.splice( object.indexOf('meterid'), 1 );
+  var value = [];
+  for (q in object){value.push(conventialGen[object[q]])}
+  conventialGen['value']=value;
+  conventialGen['object']=object;
+
+  return conventialGen;
+ }
+ return{
+ form : form 
+ }
+ }
+
+
+var wind_kotadapitha = function() {
+ function form(m){
+   d = {}
+   r = xhrreq('http://192.168.1.216:5005/rest/wind-kotadapitha/'+m);
+   t = Object.keys(r).sort()
+   
+   for (n in t)
+   {
+	   var total = 0;
+	  // console.log(t[n])
+	if (t[n] != 'meterid')
+	{
+	   o = Object.keys(r[t[n]])
+	   for (k in o )
+	   {total +=(r[t[n]][o[k]])*6/1000;} 
+	   
+	   
+	
+   }
+   kotadapithaGen[t[n]] = total.toFixed(2)
+   }
+  var object = Object.keys(kotadapithaGen)
+  object.splice( object.indexOf('meterid'), 1 );
+  var value = [];
+  for (q in object){value.push(kotadapithaGen[object[q]])}
+  kotadapithaGen['value']=value;
+  kotadapithaGen['object']=object;
+
+  return kotadapithaGen;
+ }
+ return{
+ form : form 
+ }
+ }
+
+
+var wind_rojmal = function() {
+ function form(m){
+   d = {}
+   r = xhrreq('http://192.168.1.216:5005/rest/wind-rojmal/'+m);
+   t = Object.keys(r).sort()
+   
+   for (n in t)
+   {
+	   var total = 0;
+	  // console.log(t[n])
+	if (t[n] != 'meterid')
+	{
+	   o = Object.keys(r[t[n]])
+	   for (k in o )
+	   {total +=(r[t[n]][o[k]])/1000;} 
+	   
+	   
+	
+   }
+   rojmalGen[t[n]] = total.toFixed(2)
+   }
+  var object = Object.keys(rojmalGen)
+  object.splice( object.indexOf('meterid'), 1 );
+  var value = [];
+  for (q in object){value.push(rojmalGen[object[q]])}
+  rojmalGen['value']=value;
+  rojmalGen['object']=object;
+
+  return rojmalGen;
+ }
+ return{
+ form : form 
+ }
+ }
+
+var wind_kuchhdi = function() {
+ function form(m){
+   d = {}
+   r = xhrreq('http://192.168.1.216:5005/rest/wind-kuchhdi/'+m);
+   t = Object.keys(r).sort()
+   
+   for (n in t)
+   {
+	   var total = 0;
+	  // console.log(t[n])
+	if (t[n] != 'meterid')
+	{
+	   o = Object.keys(r[t[n]])
+	   for (k in o )
+	   {total +=(r[t[n]][o[k]])/1000;} 
+	   
+	   
+	
+   }
+   kuchhdiGen[t[n]] = total.toFixed(2)
+   }
+  var object = Object.keys(kuchhdiGen)
+  object.splice( object.indexOf('meterid'), 1 );
+  var value = [];
+  for (q in object){value.push(kuchhdiGen[object[q]])}
+  kuchhdiGen['value']=value;
+  kuchhdiGen['object']=object;
+
+  return kuchhdiGen;
+ }
+ return{
+ form : form 
+ }
+ }
+*/
+ dataobj = function(o,f) {
+ result = {}
+ totalf = 0
+ function form(m){
+   d = {}
+   r = xhrreq('http://192.168.1.218:5005/rest/'+o+'/'+m);
+   t = Object.keys(r).sort()
+   
+   for (n in t)
+   {
+	   var total = 0;
+	  // console.log(t[n])
+	if (t[n] != 'meterid')
+	{
+	   o = Object.keys(r[t[n]])
+	   for (k in o )
+	   {total +=(r[t[n]][o[k]])*f;} 
+	   
+	   
+	
+   }
+   result[t[n]] = parseFloat(total.toFixed(2))
+   totalf+=parseFloat(result[t[n]])
+   }
+  var object = Object.keys(result)
+  object.splice( object.indexOf('meterid'), 1 );
+  var value = [];
+  for (q in object){value.push(result[object[q]])}
+  result['value']=value;
+  result['object']=object;
+  result['total']=totalf;
+
+  return result;
+ }
+ return{
+ form : form 
+ }
+ }
+
+
+//var conventialGIPCL = convential().form('today');
+//var kotadapithaToday = wind_kotadapitha().form('today');
+//var rojmalToday = wind_rojmal().form('today');
+//var kuchhdiToday = wind_kuchhdi().form('today');
+//var kuchhdiToday = wind_kuchhdi().form('today');
+//var kuchhdiToday = wind_kuchhdi().form('today');
+////////////////////////today//////////////////////////////////////
+var conventialgipcl = dataobj('convential-gipcl',1).form('today')
+var conventialslpp = dataobj('convential-slpp',0.001).form('today')
+var windkotadapitha = dataobj('wind-kotadapitha',0.006).form('today')
+var windrojmal = dataobj('wind-rojmal',0.001).form('today')
+var windnakhtrana = dataobj('wind-nakhtrana',0.001).form('today')
+var windkuchhdi = dataobj('wind-kuchhdi',0.001).form('today')
+var windcharanka = dataobj('wind-charanka',0.001).form('today')
+var solarrooftop = dataobj('solar-rooftop',0.001).form('today')
+
+var convential = arrsum(conventialgipcl['value'],conventialslpp['value']);
+var wind = arrsum(windkotadapitha['value'],windrojmal['value'])
+console.log(conventialgipcl['value'])
+var wind = arrsum(wind,windnakhtrana['value'])
+var wind = arrsum(wind,windkuchhdi['value'])
+var wind = arrsum(wind,windcharanka['value'])
+
+var conventialTC =  btwnlst(conventialgipcl,70)+btwnlst(conventialslpp,70);
+var windTC = btwnlst(windkotadapitha,70)+btwnlst(windnakhtrana,70)+btwnlst(windkuchhdi,70)+btwnlst(windcharanka,70)+btwnlst(windrojmal,70)
+var solar = 0
+var solarRTC = btwnlst(solarrooftop,70)
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////week//////////////////////////////////////////////////////////////
+
+var conventialgipclw = dataobj('convential-gipcl',1).form('week')
+var conventialslppw = dataobj('convential-slpp',0.001).form('week')
+var windkotadapithaw = dataobj('wind-kotadapitha',0.006).form('week')
+var windrojmalw = dataobj('wind-rojmal',0.001).form('week')
+var windnakhtranaw = dataobj('wind-nakhtrana',0.001).form('week')
+var windkuchhdiw = dataobj('wind-kuchhdi',0.001).form('week')
+var windcharankaw = dataobj('wind-charanka',0.001).form('week')
+var solarrooftopw = dataobj('solar-rooftop',0.001).form('week')
+
+var conventialw = arrsum(conventialgipclw['value'],conventialslppw['value']);
+var windw = arrsum(windkotadapithaw['value'],windrojmalw['value'])
+var windw = arrsum(windw,windnakhtranaw['value'])
+var windw = arrsum(windw,windkuchhdiw['value'])
+var windw = arrsum(windw,windcharankaw['value'])
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////month//////////////////////////////////////////////////////////////
+
+var conventialgipclm = dataobj('convential-gipcl',1).form('month')
+var conventialslppm = dataobj('convential-slpp',0.001).form('month')
+var windkotadapitham = dataobj('wind-kotadapitha',0.006).form('month')
+var windrojmalm = dataobj('wind-rojmal',0.001).form('month')
+var windnakhtranam = dataobj('wind-nakhtrana',0.001).form('month')
+var windkuchhdim = dataobj('wind-kuchhdi',0.001).form('month')
+var windcharankam = dataobj('wind-charanka',0.001).form('month')
+var solarrooftopm = dataobj('solar-rooftop',0.001).form('month')
+
+var conventialm = arrsum(conventialgipclm['value'],conventialslppm['value']);
+var windm = arrsum(windkotadapitham['value'],windrojmalm['value'])
+var windm = arrsum(windm,windnakhtranam['value'])
+var windm = arrsum(windm,windkuchhdim['value'])
+var windm = arrsum(windm,windcharankam['value'])
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////year//////////////////////////////////////////////////////////////
+
+var conventialgipcly = dataobj('convential-gipcl',1).form('year')
+var conventialslppy = dataobj('convential-slpp',0.001).form('year')
+var windkotadapithay = dataobj('wind-kotadapitha',0.006).form('year')
+var windrojmaly = dataobj('wind-rojmal',0.001).form('year')
+var windnakhtranay = dataobj('wind-nakhtrana',0.001).form('year')
+var windkuchhdiy = dataobj('wind-kuchhdi',0.001).form('year')
+var windcharankay = dataobj('wind-charanka',0.001).form('year')
+var solarrooftopy = dataobj('solar-rooftop',0.001).form('year')
+
+var conventialy = arrsum(conventialgipcly['value'],conventialslppy['value']);
+var windy = arrsum(windkotadapithay['value'],windrojmaly['value'])
+var windy = arrsum(windy,windnakhtranay['value'])
+var windy = arrsum(windy,windkuchhdiy['value'])
+var windy = arrsum(windy,windcharankay['value'])
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+console.log('windkotadapitha:'+(btwnlst(conventialgipcl,70)+btwnlst(conventialslpp,70)))
+console.log(convential);
+console.log(conventialslpp);
+console.log('windkotadapitha:'+btwnlst(windkotadapitha,70));
+console.log('windrojmal:'+btwnlst(windrojmal,70));
+console.log('windnakhtrana:'+btwnlst(windnakhtrana,70));
+console.log('windkuchhdi:'+btwnlst(windkuchhdi,70));
+console.log('windcharanka:'+btwnlst(windcharanka,70));
+console.log('solarrooftop:'+btwnlst(solarrooftop,70));
+

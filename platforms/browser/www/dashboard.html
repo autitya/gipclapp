@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="nitesh">
+  <meta name="Keywords" content="dashboard">
+  <meta name="Description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="icons/favicon.ico"/>
+  <script type="text/javascript" src="js/main_charts.js"></script>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+ 
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <title>GIPCL</title>
+ </head>
+ <body>
+ <div id='loader' class='loader-container' ><div style='position: fixed;height: 250px;'><div class="loader">Loading...</div></div><div id='loadstatus' style='width: 100%;position: fixed;left: 0px;text-align: center;'></div></div>
+ <div id='main' style='filter:blur(4px)'>
+<nav id='header' style='margin-bottom: 0px;' class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">GIPCL</a>
+    
+    <ul class="nav navbar-nav">
+      <li class="dropdown"><a class="dropdown-toggle" style='float:right;padding: 5px;' data-toggle="dropdown" href="#"><span style='font-size: 25px;' class="glyphicon glyphicon-menu-hamburger"></span></a>
+        <ul class="dropdown-menu">
+           <li><a href="home.html">Home</a></li>
+          <li><a class='active' href="dashboard.html">Dashboard</a></li>
+          <li><a href="#">Reports</a></li>
+          <li><a href="#">Charts</a></li>
+          <li><a href="#">Account</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+      </li>
+    </ul>
+	</div>
+  </div>
+</nav>
+<div class='container-tabs'>
+<a class='active tabs' onclick='dashtab(this,"cluster-bar");clusterbar("w");'>Today</a>
+<a class='tabs' onclick='dashtab(this,"cluster-bar-w");clusterweekg()'>Week</a>
+<a class='tabs' onclick='dashtab(this,"cluster-bar-m");clustermonthg()'>Month</a>
+<a class='tabs' onclick='dashtab(this,"cluster-bar-y");clusteryearg()'>Year</a>
+</div>
+<div class="container">
+<div class='container-box'>
+<div id='pai-dash'></div>
+</div>
+<div class='container-box'>
+
+<div class='g-container' id='cluster-bar'></div>
+<div class='g-container' id='cluster-bar-w' style='display:none'></div>
+<div class='g-container' id='cluster-bar-m' style='display:none'></div>
+<div class='g-container' id='cluster-bar-y' style='display:none'></div>
+</div>
+</div>
+</div>
+ <script src="js/main.js"></script>
+<script type="text/javascript">
+var myChart = echarts.init(document.getElementById('pai-dash'), 'light');
+var app = {};
+option = null;
+    option = {
+    tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b}: {c} ({d}%)'
+    },
+    legend: {
+        orient: 'vertical',
+        left: 10,
+        data: ['CONVENTIONAL', 'WIND', 'SOLAR', 'SOLAR-R']
+    },
+    series: [
+        {
+            name: 'dashboard',
+            type: 'pie',
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: false,
+            label: {
+                normal: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    show: true,
+                    textStyle: {
+                        fontSize: '30',
+                        fontWeight: 'bold'
+                    }
+                }
+            },
+            labelLine: {
+                normal: {
+                    show: false
+                }
+            },
+            data: [
+                {value: conventialTC, name: 'CONVENTIONAL'},
+                {value: windTC, name: 'WIND'},
+                {value: solar, name: 'SOLAR'},
+                {value: solarRTC, name: 'SOLAR-R'}
+            ]
+        }
+    ]
+};
+
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+
+
+
+document.getElementById('cluster-bar').innerHTML = '';
+var myChartbart = echarts.init(document.getElementById('cluster-bar'), 'light');
+var app = {};
+optiont = null;
+optiont = {
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {            
+            type: 'shadow'       
+        }
+    },
+    legend: {
+        data: ['CONVENTIONAL', 'WIND', 'SOLAR', 'SOLAR-R']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'category',
+		data: conventialgipcl.object
+    },
+    yAxis: {
+        type: 'value'
+        
+    },
+    series: [
+        {
+            name: 'CONVENTIONAL',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: convential
+        },
+        {
+            name: 'WIND',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: wind
+        },
+        {
+            name: 'SOLAR',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: solarrooftop.value
+        },
+        {
+            name: 'SOLAR-R',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: solarrooftop.value
+        }
+    ]
+};
+if (optiont && typeof optiont === "object") {
+    myChartbart.setOption(optiont, true);
+}
+console.log(optiont)
+function clusterbar(d){
+option.series[0].data = [
+                {value: conventialTC, name: 'CONVENTIONAL'},
+                {value: windTC, name: 'WIND'},
+                {value: solar, name: 'SOLAR'},
+                {value: solarRTC, name: 'SOLAR-R'}
+            ];
+
+myChart.setOption(option, true);
+if (optiont && typeof optiont === "object") {
+    myChartbart.setOption(optiont, true);
+}}
+
+
+document.getElementById('cluster-bar-w').innerHTML = '';
+
+var app = {};
+optionw = null;
+optionw = {
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {            
+            type: 'shadow'       
+        }
+    },
+    legend: {
+        data: ['CONVENTIONAL', 'WIND', 'SOLAR', 'SOLAR-R']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'category',
+		data: conventialgipclw.object
+    },
+    yAxis: {
+        type: 'value'
+        
+    },
+    series: [
+        {
+            name: 'CONVENTIONAL',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: conventialw
+        },
+        {
+            name: 'WIND',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windw
+        },
+        {
+            name: 'SOLAR',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: solarrooftopw.value
+        },
+        {
+            name: 'SOLAR-R',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: solarrooftopw.value
+        }
+    ]
+};
+function clusterweekg(){
+	option.series[0].data = [
+                {value: conventialgipclw.total+conventialslppw.total, name: 'CONVENTIONAL'},
+                {value: windkotadapithaw.total+windrojmalw.total+windnakhtranaw.total+windkuchhdiw.total+windcharankaw.total, name: 'WIND'},
+                {value: solar, name: 'SOLAR'},
+                {value: solarrooftopw.total, name: 'SOLAR-R'}
+            ];
+myChart.setOption(option, true);
+if (optionw && typeof optionw === "object") {
+	var myChartbarw = echarts.init(document.getElementById('cluster-bar-w'), 'light');
+    myChartbarw.setOption(optionw, true);
+}
+}
+
+
+
+document.getElementById('cluster-bar-m').innerHTML = '';
+
+var app = {};
+optionm = null;
+optionm = {
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {            
+            type: 'shadow'       
+        }
+    },
+    legend: {
+        data: ['CONVENTIONAL', 'WIND', 'SOLAR', 'SOLAR-R']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'category',
+		data: conventialgipclm.object
+    },
+    yAxis: {
+        type: 'value'
+        
+    },
+    series: [
+        {
+            name: 'CONVENTIONAL',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: conventialm
+        },
+        {
+            name: 'WIND',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windm
+        },
+        {
+            name: 'SOLAR',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: solarrooftopm.value
+        },
+        {
+            name: 'SOLAR-R',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: solarrooftopm.value
+        }
+    ]
+};
+function clustermonthg(){
+	option.series[0].data = [
+                {value: conventialgipclm.total+conventialslppm.total, name: 'CONVENTIONAL'},
+                {value: windkotadapitham.total+windrojmalm.total+windnakhtranam.total+windkuchhdim.total+windcharankam.total, name: 'WIND'},
+                {value: solar, name: 'SOLAR'},
+                {value: solarrooftopm.total, name: 'SOLAR-R'}
+            ];
+myChart.setOption(option, true);
+if (optionw && typeof optionw === "object") {
+	var myChartbarm = echarts.init(document.getElementById('cluster-bar-m'), 'light');
+    myChartbarm.setOption(optionm, true);
+}
+}
+
+
+document.getElementById('cluster-bar-m').innerHTML = '';
+
+var app = {};
+optiony = null;
+optiony = {
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {            
+            type: 'shadow'       
+        }
+    },
+    legend: {
+        data: ['CONVENTIONAL', 'WIND', 'SOLAR', 'SOLAR-R']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'category',
+		data: conventialgipcly.object
+    },
+    yAxis: {
+        type: 'value'
+        
+    },
+    series: [
+        {
+            name: 'CONVENTIONAL',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: conventialy
+        },
+        {
+            name: 'WIND',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windy
+        },
+        {
+            name: 'SOLAR',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: solarrooftopy.value
+        },
+        {
+            name: 'SOLAR-R',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: solarrooftopy.value
+        }
+    ]
+};
+function clusteryearg(){
+	option.series[0].data = [
+                {value: conventialgipcly.total+conventialslppy.total, name: 'CONVENTIONAL'},
+                {value: windkotadapithay.total+windrojmaly.total+windnakhtranay.total+windkuchhdiy.total+windcharankay.total, name: 'WIND'},
+                {value: solar, name: 'SOLAR'},
+                {value: solarrooftopy.total, name: 'SOLAR-R'}
+            ];
+myChart.setOption(option, true);
+if (optiony && typeof optiony === "object") {
+	var myChartbary = echarts.init(document.getElementById('cluster-bar-y'), 'light');
+    myChartbary.setOption(optiony, true);
+}
+}
+
+
+
+/*
+
+  option = {
+    tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b}: {c} ({d}%)'
+    },
+    legend: {
+        orient: 'vertical',
+        left: 10,
+        data: ['value1', 'value2', 'value3', 'value4', 'value5']
+    },
+    series: [
+        {
+            name: 'dashboard',
+            type: 'pie',
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: false,
+            label: {
+                normal: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    show: true,
+                    textStyle: {
+                        fontSize: '30',
+                        fontWeight: 'bold'
+                    }
+                }
+            },
+            labelLine: {
+                normal: {
+                    show: false
+                }
+            },
+            data: [
+                {value: 335, name: 'value1'},
+                {value: 310, name: 'value2'},
+                {value: 234, name: 'value3'},
+                {value: 135, name: 'value4'},
+                {value: 1548, name: 'value5'}
+            ]
+        }
+    ]
+};
+;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+*/
+       </script>
+	 
+ </body>
+</html>

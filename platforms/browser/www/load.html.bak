@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="nitesh">
+  <meta name="Keywords" content="dashboard">
+  <meta name="Description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="icons/favicon.ico"/>
+  <script type="text/javascript" src="js/main_charts.js"></script>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+ 
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <style>
+  .loader {
+    color: #ffffff;
+	}
+	.loader, .loader:before, .loader:after {
+    background: #ffffff;
+	}
+  </style>
+  <title>GIPCL</title>
+ </head>
+ <body>
+ <div id='loader' class='loader-container' style='background: #03A9F4;' ><div style='position: fixed;height: 250px;'><div class="loader">Loading...</div></div><div id='loadstatus' style='width: 100%;position: fixed;left: 0px;text-align: center;color: white;font-family: sans-serif;'>Loading.........</div></div>
+
+
+
+
+
+
+<p>Status: <output id="result"></output></p>
+<button onclick="startWorker()">Start Worker</button> 
+<button onclick="stopWorker()">Stop Worker</button>
+<div id ='output'></div>
+
+<p><strong>Note:</strong> Internet Explorer 9 and earlier versions do not support Web Workers.</p>
+
+<script>
+var w;
+var r = 0;
+var Tr = 32;
+function startWorker() {
+  if(typeof(Worker) !== "undefined") {
+    if(typeof(w) == "undefined") {
+      w = new Worker("js/worker.js");
+    }
+    w.onmessage = function(event) {
+		r++;
+	    if (typeof(Storage) !== "undefined") {
+  var oKEy = Object.keys(event.data)
+  sessionStorage.setItem(oKEy, JSON.stringify(event.data));
+	// document.getElementById("output").innerHTML =  JSON.parse(sessionStorage.getItem(oKEy))[oKEy]['total'];
+} else {
+  console.log('Storage')
+}
+      document.getElementById("loadstatus").innerHTML = oKEy +'  '+r+"/"+Tr;
+	  if (r==Tr){/*stopWorker();*/window.location.href = "dashboard.html";}
+	  {
+	  }
+    };
+  } else {
+    document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Workers...";
+  }
+}
+
+function stopWorker() { 
+  w.terminate();
+  w = undefined;
+}
+window.onload = function(){startWorker();}
+</script>
+
+</body>
+</html>
