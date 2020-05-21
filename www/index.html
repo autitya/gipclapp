@@ -1,36 +1,139 @@
 <!doctype html>
 <html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta name="Generator" content="EditPlus®">
-  <meta name="Author" content="nitesh">
-  <meta name="Keywords" content="dashboard">
-  <meta name="Description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/png" href="icons/favicon.ico"/>
-  <script type="text/javascript" src="js/main_charts.js"></script>
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-   <script src="js/config.js"></script>
-  <link rel="stylesheet" type="text/css" href="css/main.css">
-  <style>
+<head>
+ <meta charset="UTF-8">
+ <meta name="Generator" content="EditPlusï¿½">
+ <meta name="Author" content="nitesh">
+ <meta name="Keywords" content="dashboard">
+ <meta name="Description" content="">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="icon" type="image/png" href="icons/favicon.ico"/>
+ <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+ <script type="text/javascript" src="js/main_charts.js"></script>
+ <link rel="stylesheet" href="css/bootstrap.min.css">
+ <script src="js/jquery.min.js"></script>
+ <script src="js/bootstrap.min.js"></script>
+ <script src="js/index.js"></script>
+
+ <link rel="stylesheet" type="text/css" href="css/main.css">
+ <style>
   .loader {
     color: #ffffff;
 	}
 	.loader, .loader:before, .loader:after {
     background: #ffffff;
 	}
-  </style>
-  <title>GIPCL</title>
- </head>
- <body>
- <div id='loader' class='loader-container' style='background: #03A9F4;' ><div id='loadstatus' style='width: 100%;position: fixed;left: 0px;text-align: center;color: white;font-family: sans-serif;font-size: -webkit-xxx-large;'>Grid-Logic</div></div>
 
- <script>
-setTimeout(function(){
-window.location.href = "load.html";
-},2000)
+	input{
+    font-family: inherit;
+    padding: 2px 10px;
+    font-size: inherit;
+    line-height: inherit;
+    border: 1px solid #a8a8a8;
+	outline-color:transparent;
+}
+
+input:focus{
+border:1px solid transparent;outline-color:#03a9f4;
+}
+button{
+background: #03a9f4;
+    color: white;
+    border: none;
+    padding: 5px;
+    border-radius: 2px;
+}
+  </style>
+ <title>GIPCL</title>
+</head>
+<body>
+<div id='loader' class='loader-container' style='background: #03A9F4;' ><div id='loadstatus' style='width: 100%;position: fixed;left: 0px;text-align: center;color: white;font-family: sans-serif;font-size: -webkit-xxx-large;transition:0.5s;top: 250px;'>Grid-Logic</div>
+
+ <div id='loginform' style='width: 100%;
+    height: 250px;color: #666;
+    left: 550px;
+    position: absolute;padding:20px;transition:all 1s cubic-bezier(0.83, 0.4, 0.5, 1.18) 0s';>
+  <div style='margin: auto;
+    width: 320px;
+    padding: 40px 20px;
+    display: grid;
+	grid-gap: 5px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.42);
+    background-color: #ffffff;'>
+   <img src='img/logo.png' style='height: 60px;
+    margin: auto;'></img>
+   <span>Username</span>
+   <input type='text' id='username'></input>
+   <span>Password</span>
+   <input type='password' id='password'></input>
+
+   <button style='' onclick='login()'>Login</button><button style=''>Cancel</button>
+   <span id ='incrtdtls' style='text-align: center;display:none;color:#F44336'>Incorrect Username / Password</span>
+  </div>
+ </div>
+</div>
+
+<script>
+function login(){
+var u = $('#username')[0].value;
+var p = $('#password')[0].value;
+var xhttpreq = new XMLHttpRequest();
+//xhttpreq.withCredentials = true;
+xhttpreq.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+       // Typical action to be performed when the document is ready:
+       console.log(xhttpreq.responseText);
+	   if(xhttpreq.responseText!='0'){
+	   localStorage.setItem("Apptoken", "somevalue");verify();
+    }
+	else{$('#incrtdtls')[0].style.display = 'block';}
+}};
+xhttpreq.open("get", "https://13.233.159.39:5005/login/"+u+"/"+p, false);
+xhttpreq.send(null);
+}
+
+
+
+
+function verify(){
+t = localStorage.getItem('Apptoken');
+console.log(t);
+if(t==null){
+	setTimeout(function(){$('#loadstatus')[0].style.top = '100px';$('#loginform')[0].style.left = '0px';},1000)
+	return;}
+
+
+var xhttpreq = new XMLHttpRequest();
+//xhttpreq.withCredentials = true;
+xhttpreq.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+       // Typical action to be performed when the document is ready:
+       console.log(xhttpreq.responseText);
+	   if (xhttpreq.responseText ==0)
+	   {
+		$('#loadstatus')[0].style.top = '100px';$('#loginform')[0].style.left = '0px';$('#incrtdtls')[0].style.display = 'block';
+	   }else{window.location.href = "load.html";}
+    }
+  else if(this.status == 404 || this.status==500|| this.status==400){
+	 setTimeout(function(){$('#loadstatus')[0].style.top = '100px';$('#loginform')[0].style.left = '0px';},1000)
+  }
+};
+xhttpreq.open("get", "https://13.233.159.39:5005/login/verify/"+t, false);
+xhttpreq.send(null);
+
+}
+
+
+//try{
+	setTimeout(function(){verify()},4000);
+//}
+
+//catch{
+//setTimeout(function(){ $('#loadstatus')[0].style.top = '100px';$('#loginform')[0].style.left = '0px';},1000)
+//}
+
+
+//setTimeout(function(){window.location.href = "load.html";},2000)
  </script>
 

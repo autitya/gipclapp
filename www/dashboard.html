@@ -1,65 +1,106 @@
 <!doctype html>
 <html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta name="Generator" content="EditPlus®">
-  <meta name="Author" content="nitesh">
-  <meta name="Keywords" content="dashboard">
-  <meta name="Description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/png" href="icons/favicon.ico"/>
-  <script type="text/javascript" src="js/main_charts.js"></script>
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
- 
-  <link rel="stylesheet" type="text/css" href="css/main.css">
-  <title>GIPCL</title>
- </head>
- <body>
- <div id='loader' class='loader-container' ><div style='position: fixed;height: 250px;'><div class="loader">Loading...</div></div><div id='loadstatus' style='width: 100%;position: fixed;left: 0px;text-align: center;'></div></div>
- <div id='main' style='filter:blur(4px)'>
-<nav id='header' style='margin-bottom: 0px;' class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">GIPCL</a>
-    
-    <ul class="nav navbar-nav">
-      <li class="dropdown"><a class="dropdown-toggle" style='float:right;padding: 5px;' data-toggle="dropdown" href="#"><span style='font-size: 25px;' class="glyphicon glyphicon-menu-hamburger"></span></a>
-        <ul class="dropdown-menu">
-           <li><a href="home.html">Home</a></li>
-          <li><a class='active' href="dashboard.html">Dashboard</a></li>
-          <li><a href="#">Reports</a></li>
-          <li><a href="#">Charts</a></li>
-          <li><a href="#">Account</a></li>
-          <li><a href="#">About</a></li>
-        </ul>
-      </li>
-    </ul>
-	</div>
-  </div>
-</nav>
-<div class='container-tabs'>
-<a class='active tabs' onclick='dashtab(this,"cluster-bar");clusterbar("w");'>Today</a>
-<a class='tabs' onclick='dashtab(this,"cluster-bar-w");clusterweekg()'>Week</a>
-<a class='tabs' onclick='dashtab(this,"cluster-bar-m");clustermonthg()'>Month</a>
-<a class='tabs' onclick='dashtab(this,"cluster-bar-y");clusteryearg()'>Year</a>
-</div>
-<div class="container">
-<div class='container-box'>
-<div id='pai-dash'></div>
-</div>
-<div class='container-box'>
+<head>
+    <meta charset="UTF-8">
+    <meta name="Generator" content="EditPlus®">
+    <meta name="Author" content="nitesh">
+    <meta name="Keywords" content="dashboard">
+    <meta name="Description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="icons/favicon.ico"/>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" src="js/main_charts.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/index.js"></script>
 
-<div class='g-container' id='cluster-bar'></div>
-<div class='g-container' id='cluster-bar-w' style='display:none'></div>
-<div class='g-container' id='cluster-bar-m' style='display:none'></div>
-<div class='g-container' id='cluster-bar-y' style='display:none'></div>
-</div>
-</div>
-</div>
- <script src="js/main.js"></script>
-<script type="text/javascript">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <title>GIPCL</title>
+    <style>
+  td{padding: 4px;}
+  th {
+    text-align: left;
+    padding: 4px;
+}
+tr:nth-child(even) {background: #eee}
+tr:nth-child(odd) {background: #FFF}
+  </style>
+</head>
+<body>
+<div id='loader' class='loader-container' ><div style='position: fixed;height: 250px;'><div class="loader">Loading...</div></div><div id='loadstatus' style='width: 100%;position: fixed;left: 0px;text-align: center;'></div></div>
+<div id='main' style='filter:blur(4px)'>
+    <nav id='header' style='margin-bottom: 0px;' class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div style='position: absolute;
+    margin: auto;
+    left: 0px;
+    width: 100%;
+    color: #ccc;
+    top: 15px;'><h4 style='width: 150px;
+    margin: auto;
+    text-align: center;
+    font-size: 18px;'>Dashboard</h4></div>
+            <div class="navbar-header">
+
+                <a class="navbar-brand" href="#">Grid-Logic</a>
+
+                <ul class="nav navbar-nav">
+                    <li class="dropdown"><a class="dropdown-toggle" style='float:right;padding: 5px;' data-toggle="dropdown" href="#"><span style='font-size: 25px;' class="glyphicon glyphicon-menu-hamburger"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="home.html">Home</a></li>
+                            <li><a class='active' href="dashboard.html">Dashboard</a></li>
+                            <li><a href="#">Reports</a></li>
+                            <li><a href="charts.html">Charts</a></li>
+                            <li><a href="#">Account</a></li>
+                            <li><a href="#">About</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class='container-tabs'>
+        <a class='active tabs' onclick='dashtab(this,"cluster-bar");clusterbar("w");'>Today</a>
+        <a class='tabs' onclick='dashtab(this,"cluster-bar-w");clusterweekg()'>Week</a>
+        <a class='tabs' onclick='dashtab(this,"cluster-bar-m");clustermonthg()'>Month</a>
+        <a class='tabs' onclick='dashtab(this,"cluster-bar-y");clusteryearg()'>Year</a>
+    </div>
+    <div class="container">
+        <p style='    position: absolute;
+    font-size: smaller;
+    width: 100%;
+    color: #777;
+    text-align: right;
+    right: 5%;
+    padding: 10px 0px;'><span id='refreshicon' onclick='location.reload()' class='glyphicon glyphicon-refresh'></span>&nbsp;&nbsp;Last Updated :<span id='lastupdate'>0</span> Minutes Ago</p>
+        <div class='container-box' style='height: 150px;'>
+            <div id='table'>
+                <table style='width:100%;'>
+                    <tr style='border-bottom: 1px solid #555;'><th>Name</th><th>Capacity</th><th>Generated</th></tr>
+                    <tr><td>Thermal</td><td><span id='conventialcp'>810</span> MW</td><td><span id='convential'>510</span> MW</td></tr>
+                    <tr><td>Wind</td><td><span id='windcp'>112.4</span> MW</td><td><span id='wind'>510</span> MW</td></tr>
+                    <tr><td>Solar</td><td><span id='solarcp'>262</span> MW</td><td><span id='solar'>510</span> MW</td></tr>
+                    <tr><td>Solar Rooftop</td><td><span id='solarRTcp'>100</span> MW</td><td><span id='solarRT'>510</span> MW</td></tr>
+                </table>
+            </div>
+        </div>
+        <div class="container">
+            <div class='container-box'>
+                <div id='pai-dash'></div>
+            </div>
+            <div class='container-box'>
+
+                <div class='g-container' id='cluster-bar'></div>
+                <div class='g-container' id='cluster-bar-w' style='display:none'></div>
+                <div class='g-container' id='cluster-bar-m' style='display:none'></div>
+                <div class='g-container' id='cluster-bar-y' style='display:none'></div>
+            </div>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+    <script type="text/javascript">
+
 var myChart = echarts.init(document.getElementById('pai-dash'), 'light');
 var app = {};
 option = null;
@@ -71,7 +112,7 @@ option = null;
     legend: {
         orient: 'vertical',
         left: 10,
-        data: ['CONVENTIONAL', 'WIND', 'SOLAR', 'SOLAR-R']
+        data: ['THERMAL', 'WIND', 'SOLAR', 'SOLAR-R']
     },
     series: [
         {
@@ -98,7 +139,7 @@ option = null;
                 }
             },
             data: [
-                {value: conventialTC, name: 'CONVENTIONAL'},
+                {value: conventialTC, name: 'THERMAL'},
                 {value: windTC, name: 'WIND'},
                 {value: solar, name: 'SOLAR'},
                 {value: solarRTC, name: 'SOLAR-R'}
@@ -120,12 +161,12 @@ optiont = null;
 optiont = {
     tooltip: {
         trigger: 'axis',
-        axisPointer: {            
-            type: 'shadow'       
+        axisPointer: {
+            type: 'shadow'
         }
     },
     legend: {
-        data: ['CONVENTIONAL', 'WIND', 'SOLAR', 'SOLAR-R']
+        data: ['THERMAL', 'WIND', 'SOLAR', 'SOLAR-R']
     },
     grid: {
         left: '3%',
@@ -139,11 +180,11 @@ optiont = {
     },
     yAxis: {
         type: 'value'
-        
+
     },
     series: [
         {
-            name: 'CONVENTIONAL',
+            name: 'THERMAL',
             type: 'bar',
             stack: 'true',
             label: {
@@ -187,15 +228,21 @@ optiont = {
 if (optiont && typeof optiont === "object") {
     myChartbart.setOption(optiont, true);
 }
-console.log(optiont)
 function clusterbar(d){
 option.series[0].data = [
-                {value: conventialTC, name: 'CONVENTIONAL'},
+                {value: conventialTC, name: 'THERMAL'},
                 {value: windTC, name: 'WIND'},
                 {value: solar, name: 'SOLAR'},
                 {value: solarRTC, name: 'SOLAR-R'}
             ];
-
+document.getElementById('convential').innerHTML=conventialTC.toFixed(2);
+document.getElementById('conventialcp').innerHTML=810;
+document.getElementById('wind').innerHTML=windTC.toFixed(2);
+document.getElementById('windcp').innerHTML=112.4;
+document.getElementById('solar').innerHTML=solar.toFixed(2);
+document.getElementById('solarcp').innerHTML=262;
+document.getElementById('solarRT').innerHTML=solarRTC.toFixed(2);
+document.getElementById('solarRTcp').innerHTML=100;
 myChart.setOption(option, true);
 if (optiont && typeof optiont === "object") {
     myChartbart.setOption(optiont, true);
@@ -209,12 +256,12 @@ optionw = null;
 optionw = {
     tooltip: {
         trigger: 'axis',
-        axisPointer: {            
-            type: 'shadow'       
+        axisPointer: {
+            type: 'shadow'
         }
     },
     legend: {
-        data: ['CONVENTIONAL', 'WIND', 'SOLAR', 'SOLAR-R']
+        data: ['THERMAL', 'WIND', 'SOLAR', 'SOLAR-R']
     },
     grid: {
         left: '3%',
@@ -228,11 +275,11 @@ optionw = {
     },
     yAxis: {
         type: 'value'
-        
+
     },
     series: [
         {
-            name: 'CONVENTIONAL',
+            name: 'THERMAL',
             type: 'bar',
             stack: 'true',
             label: {
@@ -274,8 +321,16 @@ optionw = {
     ]
 };
 function clusterweekg(){
+document.getElementById('convential').innerHTML=(conventialgipclw.total+conventialslppw.total).toFixed(2);
+document.getElementById('conventialcp').innerHTML=(810*conventialgipclw.object.length).toFixed(2);
+document.getElementById('wind').innerHTML=(windkotadapithaw.total+windrojmalw.total+windnakhtranaw.total+windkuchhdiw.total+windcharankaw.total).toFixed(2);
+document.getElementById('windcp').innerHTML=(112.4*windkotadapithaw.object.length).toFixed(2);
+document.getElementById('solar').innerHTML=solar.toFixed(2);
+document.getElementById('solarcp').innerHTML=(262*conventialgipclw.object.length).toFixed(2);
+document.getElementById('solarRT').innerHTML=(solarrooftopw.total).toFixed(2);
+document.getElementById('solarRTcp').innerHTML=(100*solarrooftopw.object.length).toFixed(2);
 	option.series[0].data = [
-                {value: conventialgipclw.total+conventialslppw.total, name: 'CONVENTIONAL'},
+                {value: conventialgipclw.total+conventialslppw.total, name: 'THERMAL'},
                 {value: windkotadapithaw.total+windrojmalw.total+windnakhtranaw.total+windkuchhdiw.total+windcharankaw.total, name: 'WIND'},
                 {value: solar, name: 'SOLAR'},
                 {value: solarrooftopw.total, name: 'SOLAR-R'}
@@ -296,12 +351,12 @@ optionm = null;
 optionm = {
     tooltip: {
         trigger: 'axis',
-        axisPointer: {            
-            type: 'shadow'       
+        axisPointer: {
+            type: 'shadow'
         }
     },
     legend: {
-        data: ['CONVENTIONAL', 'WIND', 'SOLAR', 'SOLAR-R']
+        data: ['THERMAL', 'WIND', 'SOLAR', 'SOLAR-R']
     },
     grid: {
         left: '3%',
@@ -315,11 +370,11 @@ optionm = {
     },
     yAxis: {
         type: 'value'
-        
+
     },
     series: [
         {
-            name: 'CONVENTIONAL',
+            name: 'THERMAL',
             type: 'bar',
             stack: 'true',
             label: {
@@ -361,8 +416,16 @@ optionm = {
     ]
 };
 function clustermonthg(){
+document.getElementById('convential').innerHTML=(conventialgipclm.total+conventialslppm.total).toFixed(2);
+document.getElementById('conventialcp').innerHTML=(810*conventialgipclm.object.length).toFixed(2);
+document.getElementById('wind').innerHTML=(windkotadapitham.total+windrojmalm.total+windnakhtranam.total+windkuchhdim.total+windcharankam.total).toFixed(2);
+document.getElementById('windcp').innerHTML=(112.4*windrojmalm.object.length).toFixed(2);
+document.getElementById('solar').innerHTML=solar.toFixed(2);
+document.getElementById('solarcp').innerHTML=(262*conventialgipclm.object.length).toFixed(2);
+document.getElementById('solarRT').innerHTML=(solarrooftopm.total).toFixed(2);
+document.getElementById('solarRTcp').innerHTML=(100*solarrooftopm.object.length).toFixed(2);
 	option.series[0].data = [
-                {value: conventialgipclm.total+conventialslppm.total, name: 'CONVENTIONAL'},
+                {value: conventialgipclm.total+conventialslppm.total, name: 'THERMAL'},
                 {value: windkotadapitham.total+windrojmalm.total+windnakhtranam.total+windkuchhdim.total+windcharankam.total, name: 'WIND'},
                 {value: solar, name: 'SOLAR'},
                 {value: solarrooftopm.total, name: 'SOLAR-R'}
@@ -382,12 +445,12 @@ optiony = null;
 optiony = {
     tooltip: {
         trigger: 'axis',
-        axisPointer: {            
-            type: 'shadow'       
+        axisPointer: {
+            type: 'shadow'
         }
     },
     legend: {
-        data: ['CONVENTIONAL', 'WIND', 'SOLAR', 'SOLAR-R']
+        data: ['THERMAL', 'WIND', 'SOLAR', 'SOLAR-R']
     },
     grid: {
         left: '3%',
@@ -401,11 +464,11 @@ optiony = {
     },
     yAxis: {
         type: 'value'
-        
+
     },
     series: [
         {
-            name: 'CONVENTIONAL',
+            name: 'THERMAL',
             type: 'bar',
             stack: 'true',
             label: {
@@ -447,8 +510,16 @@ optiony = {
     ]
 };
 function clusteryearg(){
+		document.getElementById('convential').innerHTML=(conventialgipcly.total+conventialslppy.total).toFixed(2);
+document.getElementById('conventialcp').innerHTML=(810*30*conventialgipcly.object.length).toFixed(2);
+document.getElementById('wind').innerHTML=(windkotadapithay.total+windrojmaly.total+windnakhtranay.total+windkuchhdiy.total+windcharankay.total).toFixed(2);
+document.getElementById('windcp').innerHTML=(112.4*30*windkotadapithay.object.length).toFixed(2);
+document.getElementById('solar').innerHTML=solar.toFixed(2);
+document.getElementById('solarcp').innerHTML=(262*30*conventialgipcly.object.length).toFixed(2);
+document.getElementById('solarRT').innerHTML=(solarrooftopy.total).toFixed(2);
+document.getElementById('solarRTcp').innerHTML=(100*30*solarrooftopy.object.length).toFixed(2);
 	option.series[0].data = [
-                {value: conventialgipcly.total+conventialslppy.total, name: 'CONVENTIONAL'},
+                {value: conventialgipcly.total+conventialslppy.total, name: 'THERMAL'},
                 {value: windkotadapithay.total+windrojmaly.total+windnakhtranay.total+windkuchhdiy.total+windcharankay.total, name: 'WIND'},
                 {value: solar, name: 'SOLAR'},
                 {value: solarrooftopy.total, name: 'SOLAR-R'}
@@ -459,61 +530,14 @@ if (optiony && typeof optiony === "object") {
     myChartbary.setOption(optiony, true);
 }
 }
-
-
-
-/*
-
-  option = {
-    tooltip: {
-        trigger: 'item',
-        formatter: '{a} <br/>{b}: {c} ({d}%)'
-    },
-    legend: {
-        orient: 'vertical',
-        left: 10,
-        data: ['value1', 'value2', 'value3', 'value4', 'value5']
-    },
-    series: [
-        {
-            name: 'dashboard',
-            type: 'pie',
-            radius: ['50%', '70%'],
-            avoidLabelOverlap: false,
-            label: {
-                normal: {
-                    show: false,
-                    position: 'center'
-                },
-                emphasis: {
-                    show: true,
-                    textStyle: {
-                        fontSize: '30',
-                        fontWeight: 'bold'
-                    }
-                }
-            },
-            labelLine: {
-                normal: {
-                    show: false
-                }
-            },
-            data: [
-                {value: 335, name: 'value1'},
-                {value: 310, name: 'value2'},
-                {value: 234, name: 'value3'},
-                {value: 135, name: 'value4'},
-                {value: 1548, name: 'value5'}
-            ]
-        }
-    ]
-};
-;
-if (option && typeof option === "object") {
-    myChart.setOption(option, true);
-}
-*/
+document.getElementById('convential').innerHTML=conventialTC.toFixed(2);
+document.getElementById('wind').innerHTML=windTC.toFixed(2);
+document.getElementById('solar').innerHTML=solar.toFixed(2);
+document.getElementById('solarRT').innerHTML=solarRTC.toFixed(2);
+lastupdate();
+window.onload = function(){t = lastupdate();if(t>autm){startWorker();}}
+setInterval(function(){t = lastupdate();if(t>autm){startWorker();}},60*1000);
        </script>
-	 
- </body>
+
+</body>
 </html>

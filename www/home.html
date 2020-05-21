@@ -8,11 +8,14 @@
   <meta name="Description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="icons/favicon.ico"/>
+     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
   <script type="text/javascript" src="js/main_charts.js"></script>
+     <script src="js/index.js"></script>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/circle-progress.min.js"></script>
   <link rel="stylesheet" type="text/css" href="css/main.css">
   <title>GIPCL</title>
   <style>
@@ -25,7 +28,7 @@
 }
 .dash-container{
 display: flex;
-margin-top: 20px;
+margin-top: 10px;
 }
 
 .value-container p{
@@ -38,8 +41,17 @@ text-align:center;
  <div id='main' style='filter:blur(4px)'>
 <nav id='header' class="navbar navbar-inverse">
   <div class="container-fluid">
+      <div style='position: absolute;
+    margin: auto;
+    left: 0px;
+    width: 100%;
+    color: #ccc;
+    top: 15px;'><h4 style='width: 150px;
+    margin: auto;
+    text-align: center;
+    font-size: 18px;'>Home</h4></div>
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">GIPCL</a>
+      <a class="navbar-brand" href="#">Grid-Logic</a>
     
     <ul class="nav navbar-nav">
       <li class="dropdown"><a class="dropdown-toggle" style='float:right;padding: 5px;' data-toggle="dropdown" href="#"><span style='font-size: 25px;' class="glyphicon glyphicon-menu-hamburger"></span></a>
@@ -47,7 +59,7 @@ text-align:center;
            <li><a class='active' href="home.html">Home</a></li>
           <li><a  href="dashboard.html">Dashboard</a></li>
           <li><a href="#">Reports</a></li>
-          <li><a href="#">Charts</a></li>
+          <li><a href="charts.html">Charts</a></li>
           <li><a href="#">Account</a></li>
           <li><a href="#">About</a></li>
         </ul>
@@ -57,65 +69,73 @@ text-align:center;
   </div>
 </nav>
 <div style=''>
-<h5 style='margin-left: 10px;float: left;'><span id='time'>28 Feb 2020 12:01 PM</span>&nbsp;&nbsp;<span class='glyphicon glyphicon-refresh'></span></h5>
-<h5 style='margin-right: 10px;float: right;'>Auto Refresh in 20 sec</h5>
+<p style='margin-left: 10px;float: left;color: #666;'><span id='time'>28 Feb 2020 12:01 PM</span></p>
+<p style='margin-right: 10px;float: right;color: #666;'><span id='refreshicon' onclick='location.reload()' class='glyphicon glyphicon-refresh'></span>&nbsp;&nbsp;Last Updated :<span id='lastupdate'>0</span> Minutes Ago</p>
 </div>
-<div class='container-box' style='width:100%;height:250px;box-shadow:0px 0px 0px 0px'>
+<div class='container-box' style='width:100%;height:250px;box-shadow:0px 0px 0px 0px;margin-top: 10px;'>
 <div style='width:100%' id='pai-dash'>
 </div>
 </div>
 
-<div class='container-box' style='height:160px'>
+<div class='container-box' style='height:120px'>
 <div class='dash-container' style=''>
 
 <div class='value-container' style=''>
-<p>CONVENTIONAL GENERATION</p>
-<p style='font-size: x-large;color: #E91E63;'><span id='Tconventialgen'>221.57</span> MW</p>
+<p>THERMAL GENERATION</p>
+<p style='font-size: x-large;color: #E91E63;'><span id='Tconventialgen'>221.57</span> </p>
 </div>
 
 <div class='value-container' style=''>
 <p>RENEWABLE GENERATION</p>
-<p style='font-size: x-large;color: #E91E63;'><span id='Trenewablegen'>221.57</span> MW</p>
+<p style='font-size: x-large;color: #E91E63;'><span id='Trenewablegen'>221.57</span> </p>
 </div>
 
 <div class='value-container' style=''>
-<p>TOTAL GENERATION</p>
-<p style='font-size: x-large;color: #F44336;'><span id='Tgen'>221.57</span> MW</p>
+<p>Capacity GENERATION</p>
+<p style='font-size: x-large;color: #F44336;'><span id='Tgen'>221.57</span> </p>
 </div>
 </div>
 </div>
 
-<div class='container-box' style='height:350px'>
+<div class='container-box' style='height:350px;margin-top: 0px;'>
 <div id='cluster-bar'>
 
 <div class='dash-container' style=''>
 
 
-<div class='value-container' style=''>
-<p>CONVENTIONAL</p>
-<p style='font-size: x-large;color: #F44336;'><span id='convential'>221.57</span> MW</p>
+<div class='value-container' onclick='window.location.href = "conventional.html"'  style=''>
+<p>THERMAL</p>
+<div id="circle" style='position: absolute'></div>
+<p style='font-size: small;color: #555;margin: 25px 0 0 0;'><span>Capacity</span><br><span id=''>810</span> </p>
+<p style='font-size: small;color: #555;'><span>Generated</span><br><span id='convential'>0</span> </p>
 </div>
 
 
-<div class='value-container' style=''>
+<div class='value-container' onclick='window.location.href = "wind.html"'  style=''>
 <p>WIND</p>
-<p style='font-size: x-large;color: #E91E63;'><span id='wind'>221.57</span> MW</p>
+<div id="circle2" style='position: absolute'></div>
+<p style='font-size: small;color: #555;margin: 25px 0 0 0;'><span>Capacity</span><br><span>112.4</span> </p>
+<p style='font-size: small;color: #555;'><span>Generated</span><br><span id='wind'>0</span> </p>
 </div>
 
 </div>
 
-<div class='dash-container' style=''>
+<div class='dash-container' style='margin-top: 40px;'>
 
 
 <div class='value-container' style=''>
 <p>SOLAR</p>
-<p style='font-size: x-large;color: #9C27B0;'><span id='solar'>221.57</span> MW</p>
+<div id="circle3" onclick='window.location.href = "404.html"'  style='position: absolute'></div>
+<p style='font-size: small;color: #555;margin: 25px 0 0 0;'><span>Capacity</span><br><span>262</span> </p>
+<p style='font-size: small;color: #555;'><span>Generated</span><br><span id='solar'>0.00</span> </p>
 </div>
 
 
 <div class='value-container' style=''>
 <p>SOLAR-R</p>
-<p style='font-size: x-large;color:#3F51B5'><span id='solarRT'>221.57</span> MW</p>
+<div id="circle4" onclick='window.location.href = "404.html"'  style='position: absolute'></div>
+<p style='font-size: small;color: #555;margin: 25px 0 0 0;'><span>Capacity</span><br><span>100</span> </p>
+<p style='font-size: small;color: #555;'><span>Generated</span><br><span id='solarRT'>0.00</span> </p>
 </div>
 
 </div>
@@ -132,7 +152,10 @@ document.getElementById('wind').innerHTML=windTC.toFixed(2);
 document.getElementById('solar').innerHTML=solar.toFixed(2);
 document.getElementById('solarRT').innerHTML=solarRTC.toFixed(2);
 
-setInterval(function(){d=new Date();document.getElementById('time').innerHTML=d.toLocaleDateString()+' '+d.toLocaleTimeString();},1000)
+//frqs=60;
+//setInterval(function(){d=new Date();document.getElementById('time').innerHTML=d.toLocaleDateString()+' '+d.toLocaleTimeString();if(frqs==0){frqs=60}else{frqs--;document.getElementById('autref').innerHTML=frqs}},1000)
+setInterval(function(){d=new Date();document.getElementById('time').innerHTML=d.toLocaleDateString()+' '+d.toLocaleTimeString()},1000)
+lastupdate();
 var myChart = echarts.init(document.getElementById('pai-dash'), 'light');
 var app = {};
 option = null;
@@ -140,8 +163,25 @@ option = {
     title: {
         text: ''
     },
-    legend: {
-        data: ['CONVENTIONAL', 'WIND', 'SOLAR', 'SOLAR-R']
+        legend: {
+        data: ['THERMAL', 'WIND', 'SOLAR', 'SOLAR-R'],
+		width:'200px',
+		left:'0px'
+    },
+	    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+	    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: true},
+            magicType : {show: true, type: ['line', 'bar']},
+            restore : {show: true}
+        }
     },
     grid: {
         left: '3%',
@@ -163,30 +203,30 @@ option = {
     ],
     series: [
         {
-            name: 'CONVENTIONAL',
+            name: 'THERMAL',
             type: 'line',
-            stack: 'total',
+            stack: 'Capacity',
             areaStyle: {},
             data: convential
         },
         {
             name: 'WIND',
             type: 'line',
-            stack: 'total',
+            stack: 'Capacity',
             areaStyle: {},
             data: wind
         },
         {
             name: 'SOLAR',
             type: 'line',
-            stack: 'total',
+            stack: 'Capacity',
             areaStyle: {},
             data: solarrooftop.value
         },
         {
             name: 'SOLAR-R',
             type: 'line',
-            stack: 'total',
+            stack: 'Capacity',
             areaStyle: {},
             data: solarrooftop.value
         }
@@ -207,7 +247,46 @@ window.onload = function(){
 
 
 }
+  $('#circle').circleProgress({
+    value: (conventialTC/810),
+    size: 100,
+    lineCap:'round',
+    fill: {
+      color: ["#03A9F4"]
+    }
+  });
 
+    $('#circle2').circleProgress({
+    value: (windTC/112.4),
+    size: 100,
+    lineCap:'round',
+    fill: {
+      color: ["#03A9F4"]
+    }
+  });
+
+    $('#circle3').circleProgress({
+    value: (solar/262),
+    size: 100,
+    lineCap:'round',
+    fill: {
+      color: ["#03A9F4"]
+    }
+  });
+
+    $('#circle4').circleProgress({
+    value: (solarRTC/100),
+    size: 100,
+    lineCap:'round',
+    fill: {
+      color: ["#03A9F4"]
+    }
+  });
+
+  //setTimeout(function(){$('#circle').circleProgress('value', 0.95)},5000)
+lastupdate();
+window.onload = function(){t = lastupdate();if(t>autm){startWorker();}}
+setInterval(function(){t = lastupdate();if(t>autm){startWorker();}},60*1000);
 </script>
 	 
  </body>

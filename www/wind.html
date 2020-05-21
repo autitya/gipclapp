@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Generator" content="EditPlus®">
+    <meta name="Author" content="nitesh">
+    <meta name="Keywords" content="dashboard">
+    <meta name="Description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="icons/favicon.ico"/>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" src="js/main_charts.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/circle-progress.min.js"></script>
+    <script src="js/index.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <title>GIPCL</title>
+</head>
+<body>
+<div id='loader' class='loader-container' ><div style='position: fixed;height: 250px;'><div class="loader">Loading..</div></div><div id='loadstatus' style='width: 100%;position: fixed;left: 0px;text-align: center;'></div></div>
+<div id='main' style='filter:blur(4px)'>
+    <nav id='header' style='margin-bottom: 0px;' class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div style='position: absolute;
+    margin: auto;
+    left: 0px;
+    width: 100%;
+    color: #ccc;
+    top: 15px;'><h4 style='width: 150px;
+    margin: auto;
+    text-align: center;
+    font-size: 18px;'>Wind</h4></div>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Grid-Logic</a>
+
+                <ul class="nav navbar-nav">
+                    <li class="dropdown"><a class="dropdown-toggle" style='float:right;padding: 5px;' data-toggle="dropdown" href="#"><span style='font-size: 25px;' class="glyphicon glyphicon-menu-hamburger"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="home.html">Home</a></li>
+                            <li><a class='active' href="dashboard.html">Dashboard</a></li>
+                            <li><a href="#">Reports</a></li>
+                            <li><a href="charts.html">Charts</a></li>
+                            <li><a href="#">Account</a></li>
+                            <li><a href="#">About</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div></div></nav>
+
+    <div class='container-tabs'>
+        <a class='active tabs' onclick='dashtab(this,"cluster-bar");clusterbar("w");'>Today</a>
+        <a class='tabs' onclick='dashtab(this,"cluster-bar-w");clusterweekg()'>Week</a>
+        <a class='tabs' onclick='dashtab(this,"cluster-bar-m");clustermonthg()'>Month</a>
+        <a class='tabs' onclick='dashtab(this,"cluster-bar-y");clusteryearg()'>Year</a>
+    </div>
+    <div class="container">
+        <p style='    position: absolute;
+    font-size: smaller;
+    width: 100%;
+    color: #777;
+    text-align: right;
+    right: 5%;
+    padding: 10px 0px;'><span id='refreshicon' onclick='location.reload()' class='glyphicon glyphicon-refresh'></span>&nbsp;&nbsp;Last Updated :<span id='lastupdate'>0</span> Minutes Ago</p>
+        <div class='container-box' style='height:180px'>
+            <div id='pai-dash' style="display: inline-flex;">
+                <div style='width:50%;max-width:160px'>
+                    <div id="circle" style='position: absolute'>
+                    </div>
+                    <p style='font-size: medium;
+    color: #666;
+    margin: auto;
+    top: 32px;
+    text-align: center;
+    position: relative;'><span>Capacity</span><br><b id='capwind'>112.4</b> </p>
+                    <p style='font-size: medium;
+    color: #666;
+    position: relative;
+    text-align: center;
+    top: 32px;'><span>Generated</span><br><b id='wind'>0</b><br><span id ='percntval' style="font-size: small;">0%</span> </p>
+                </div>
+                <div style="width:50%;margin: auto;padding-left: 25px;">
+                    <table style='width: 100%;'>
+                        <tr style='border-bottom: 1px solid #03A9F4;'><td colspan="2"><span style='color: #03A9F4;'><svg class="bi bi-calendar-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0 2a2 2 0 012-2h12a2 2 0 012 2H0z"/>
+  <path fill-rule="evenodd" d="M0 3h16v11a2 2 0 01-2 2H2a2 2 0 01-2-2V3zm6.5 4a1 1 0 100-2 1 1 0 000 2zm4-1a1 1 0 11-2 0 1 1 0 012 0zm2 1a1 1 0 100-2 1 1 0 000 2zm-8 2a1 1 0 11-2 0 1 1 0 012 0zm2 1a1 1 0 100-2 1 1 0 000 2zm4-1a1 1 0 11-2 0 1 1 0 012 0zm2 1a1 1 0 100-2 1 1 0 000 2zm-8 2a1 1 0 11-2 0 1 1 0 012 0zm2 1a1 1 0 100-2 1 1 0 000 2zm4-1a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd"/>
+</svg>&nbsp;&nbsp;</span><span id='typehedr'>Today</span></td></tr>
+                        <tr><td>KOTADAPITHA</td><td><b id='kotadapitha'>132</b></td></tr>
+                        <tr><td>ROJMAL</td><td><b id='rojmal'>132</b></td></tr>
+                        <tr><td>NAKHTRANA</td><td><b id='nakhtrana'>132</b></td></tr>
+                        <tr><td>KUCHHDI</td><td><b id='kuchhdi'>132</b></td></tr>
+                        <tr style='background: #03A9F4;color: white;'><td>Total</td><td><b id='totalT'>132</b></td></tr>
+                    </table>
+                </div>
+            </div>
+        </div></div>
+    <div class='container-box'>
+
+        <div class='g-container' id='cluster-bar'></div>
+        <div class='g-container' id='cluster-bar-w' style='display:none'></div>
+        <div class='g-container' id='cluster-bar-m' style='display:none'></div>
+        <div class='g-container' id='cluster-bar-y' style='display:none'></div>
+    </div>
+</div></div>
+</div>
+</body>
+<script src="js/main.js"></script>
+<script type="text/javascript">
+
+
+
+
+document.getElementById('cluster-bar').innerHTML = '';
+var myChartbart = echarts.init(document.getElementById('cluster-bar'), 'light');
+var app = {};
+optiont = null;
+optiont = {
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    legend: {
+        data: ['KOTADAPITHA', 'ROJMAL', 'NAKHTRANA', 'KUCHHDI']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'category',
+		data: windrojmal.object
+    },
+    yAxis: {
+        type: 'value'
+
+    },
+    series: [
+        {
+            name: 'KOTADAPITHA',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windkotadapitha.value
+        },
+        {
+            name: 'ROJMAL',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windrojmal.value
+        },
+	  {
+            name: 'NAKHTRANA',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windnakhtrana.value
+        },
+        {
+            name: 'KUCHHDI',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windkuchhdi.value
+        }
+    ]
+};
+if (optiont && typeof optiont === "object") {
+    myChartbart.setOption(optiont, true);
+}
+console.log(optiont)
+function clusterbar(d){
+  $('#typehedr')[0].innerHTML = 'Today';
+  $('#percntval')[0].innerHTML = ((last(windkotadapitha.value)+last(windrojmal.value)+last(windnakhtrana.value)+last(windkuchhdi.value))/112.4*100).toFixed(2)+'%';
+  document.getElementById('kotadapitha').innerHTML = last(windkotadapitha.value).toFixed(2);
+   document.getElementById('capwind').innerHTML = 112.4;
+  document.getElementById('rojmal').innerHTML = last(windrojmal.value).toFixed(2);
+  document.getElementById('nakhtrana').innerHTML = last(windnakhtrana.value).toFixed(2);
+  document.getElementById('kuchhdi').innerHTML = last(windkuchhdi.value).toFixed(2);
+  document.getElementById('wind').innerHTML = document.getElementById('totalT').innerHTML = (last(windkotadapitha.value)+last(windrojmal.value)+last(windnakhtrana.value)+last(windkuchhdi.value)).toFixed(2);
+  progrscr((last(windkotadapitha.value)+last(windrojmal.value)+last(windnakhtrana.value)+last(windkuchhdi.value))/112.4);
+
+
+if (optiont && typeof optiont === "object") {
+    myChartbart.setOption(optiont, true);
+}}
+
+
+document.getElementById('cluster-bar-w').innerHTML = '';
+
+var app = {};
+optionw = null;
+optionw = {
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    legend: {
+        data: ['KOTADAPITHA', 'ROJMAL', 'NAKHTRANA', 'KUCHHDI']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'category',
+		data: windrojmalw.object
+    },
+    yAxis: {
+        type: 'value'
+
+    },
+    series: [
+        {
+            name: 'KOTADAPITHA',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windkotadapithaw.value
+        },
+        {
+            name: 'ROJMAL',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windrojmalw.value
+        },
+	  {
+            name: 'NAKHTRANA',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windnakhtranaw.value
+        },
+        {
+            name: 'KUCHHDI',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windkuchhdiw.value
+        }
+    ]
+};
+function clusterweekg(){
+  $('#typehedr')[0].innerHTML = 'This Week';
+  $('#percntval')[0].innerHTML = (((windkotadapithaw.total+windrojmalw.total+windnakhtranaw.total+windkuchhdiw.total)/(112.4*windrojmalw.object.length))*100).toFixed(2)+'%';
+  document.getElementById('kotadapitha').innerHTML = windkotadapithaw.total.toFixed(2);
+   document.getElementById('capwind').innerHTML = (112.4*windrojmalw.object.length).toFixed(2);
+  document.getElementById('rojmal').innerHTML = windrojmalw.total.toFixed(2);
+  document.getElementById('nakhtrana').innerHTML = windnakhtranaw.total.toFixed(2);
+  document.getElementById('kuchhdi').innerHTML = windkuchhdiw.total.toFixed(2);
+  document.getElementById('wind').innerHTML = document.getElementById('totalT').innerHTML = (windkotadapithaw.total+windrojmalw.total+windnakhtranaw.total+windkuchhdiw.total).toFixed(2);
+  progrscr(((windkotadapithaw.total+windrojmalw.total+windnakhtranaw.total+windkuchhdiw.total)/(112.4*windrojmalw.object.length)));
+if (optionw && typeof optionw === "object") {
+	var myChartbarw = echarts.init(document.getElementById('cluster-bar-w'), 'light');
+    myChartbarw.setOption(optionw, true);
+}
+}
+
+
+
+document.getElementById('cluster-bar-m').innerHTML = '';
+
+var app = {};
+optionm = null;
+optionm = {
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    legend: {
+        data: ['KOTADAPITHA', 'ROJMAL', 'NAKHTRANA', 'KUCHHDI']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'category',
+		data: windrojmalm.object
+    },
+    yAxis: {
+        type: 'value'
+
+    },
+    series: [
+        {
+            name: 'KOTADAPITHA',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windkotadapitham.value
+        },
+        {
+            name: 'ROJMAL',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windrojmalm.value
+        },
+	  {
+            name: 'NAKHTRANA',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windnakhtranam.value
+        },
+        {
+            name: 'KUCHHDI',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windkuchhdim.value
+        }
+    ]
+};
+function clustermonthg(){
+if (optionw && typeof optionw === "object") {
+	  $('#typehedr')[0].innerHTML = 'This Month';
+  $('#percntval')[0].innerHTML = (((windkotadapitham.total+windrojmalm.total+windnakhtranam.total+windkuchhdim.total)/(112.4*windrojmalm.object.length))*100).toFixed(2)+'%';
+  document.getElementById('kotadapitha').innerHTML = windkotadapitham.total.toFixed(2);
+     document.getElementById('capwind').innerHTML = 112.4*windrojmalm.object.length;
+  document.getElementById('rojmal').innerHTML = windrojmalm.total.toFixed(2);
+  document.getElementById('nakhtrana').innerHTML = windnakhtranam.total.toFixed(2);
+  document.getElementById('kuchhdi').innerHTML = windkuchhdim.total.toFixed(2);
+  document.getElementById('wind').innerHTML = document.getElementById('totalT').innerHTML = (windkotadapitham.total+windrojmalm.total+windnakhtranam.total+windkuchhdim.total).toFixed(2);
+  progrscr(((windkotadapitham.total+windrojmalm.total+windnakhtranam.total+windkuchhdim.total)/(112.4*windrojmalm.object.length)));
+	var myChartbarm = echarts.init(document.getElementById('cluster-bar-m'), 'light');
+    myChartbarm.setOption(optionm, true);
+}
+}
+
+
+document.getElementById('cluster-bar-m').innerHTML = '';
+
+var app = {};
+optiony = null;
+optiony ={
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    legend: {
+        data: ['KOTADAPITHA', 'ROJMAL', 'NAKHTRANA', 'KUCHHDI']
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'category',
+		data: windrojmaly.object
+    },
+    yAxis: {
+        type: 'value'
+
+    },
+    series: [
+        {
+            name: 'KOTADAPITHA',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windkotadapithay.value
+        },
+        {
+            name: 'ROJMAL',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windrojmaly.value
+        },
+	  {
+            name: 'NAKHTRANA',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windnakhtranay.value
+        },
+        {
+            name: 'KUCHHDI',
+            type: 'bar',
+            stack: 'true',
+            label: {
+                show: false,
+                position: 'insideRight'
+            },
+            data: windkuchhdiy.value
+        }
+    ]
+};
+function clusteryearg(){
+if (optiony && typeof optiony === "object") {
+	  $('#typehedr')[0].innerHTML = 'This Week';
+  $('#percntval')[0].innerHTML = (((windkotadapithaw.total+windrojmaly.total+windnakhtranay.total+windkuchhdiy.total)/(112.4*30*windrojmaly.object.length))*100).toFixed(2)+'%';
+  document.getElementById('kotadapitha').innerHTML = windkotadapithay.total.toFixed(2);
+  document.getElementById('rojmal').innerHTML = windrojmaly.total.toFixed(2);
+     document.getElementById('capwind').innerHTML = (112.4*windrojmaly.object.length*30).toFixed(2);
+  document.getElementById('nakhtrana').innerHTML = windnakhtranay.total.toFixed(2);
+  document.getElementById('kuchhdi').innerHTML = windkuchhdiy.total.toFixed(2);
+  document.getElementById('wind').innerHTML = document.getElementById('totalT').innerHTML = (windkotadapithay.total+windrojmaly.total+windnakhtranay.total+windkuchhdiy.total).toFixed(2);
+  progrscr(((windkotadapithay.total+windrojmaly.total+windnakhtranay.total+windkuchhdiy.total)/(112.4*30*windrojmaly.object.length)));
+	var myChartbary = echarts.init(document.getElementById('cluster-bar-y'), 'light');
+    myChartbary.setOption(optiony, true);
+}
+}
+
+
+
+
+function progrscr(v){
+  $('#circle').circleProgress({
+    value: v,
+    size: 160,
+	lineCap:'round',
+    fill: {
+      gradient: ["#03A9F4","#00BCD4"]
+    }
+  });}
+
+
+  $('#typehedr')[0].innerHTML = 'Today';
+  $('#percntval')[0].innerHTML = ((last(windkotadapitha.value)+last(windrojmal.value)+last(windnakhtrana.value)+last(windkuchhdi.value))/112.4*100).toFixed(2)+'%';
+    document.getElementById('capwind').innerHTML = 112;
+  document.getElementById('kotadapitha').innerHTML = last(windkotadapitha.value).toFixed(2);
+  document.getElementById('rojmal').innerHTML = last(windrojmal.value).toFixed(2);
+  document.getElementById('nakhtrana').innerHTML = last(windnakhtrana.value).toFixed(2);
+  document.getElementById('kuchhdi').innerHTML = last(windkuchhdi.value).toFixed(2);
+  document.getElementById('wind').innerHTML = document.getElementById('totalT').innerHTML = (last(windkotadapitha.value)+last(windrojmal.value)+last(windnakhtrana.value)+last(windkuchhdi.value)).toFixed(2);
+  progrscr((last(windkotadapitha.value)+last(windrojmal.value)+last(windnakhtrana.value)+last(windkuchhdi.value))/112.4);
+lastupdate();
+window.onload = function(){t = lastupdate();if(t>autm){startWorker();}}
+setInterval(function(){t = lastupdate();if(t>autm){startWorker();}},60*1000);
+       </script>
+
+</body>
+</html>
