@@ -1,18 +1,21 @@
  dataobj = function(g,f) {
- result = {}
- totalf = 0
+ result = {};
+ totalf = 0;
  function form(m){
    d = {}
 
-   var data
-var xhttp = new XMLHttpRequest();
-//xhttp.withCredentials = true;
-xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
+   var data;
+   var xhttp =[]
+xhttp[g+m] = new XMLHttpRequest();
+//xhttp[g+m].withCredentials = true;
+xhttp[g+m].timeout = 8000;
+xhttp[g+m].onreadystatechange = function() {
+ if (this.status == 400 || this.status == 404 || this.status == 500) {result = "Fail to load request Error Code: "+this.status; postMessage(result);}
+    else if (this.readyState == 4 && this.status == 200) {
        // Typical action to be performed when the document is ready:
-      r = JSON.parse(xhttp.responseText);
+      r = JSON.parse(xhttp[g+m].responseText);
 	 t = Object.keys(r).sort()
-   
+
    for (n in t)
    {
 	   var total = 0;
@@ -21,10 +24,10 @@ xhttp.onreadystatechange = function() {
 	{
 	   o = Object.keys(r[t[n]])
 	   for (k in o )
-	   {total +=(r[t[n]][o[k]])*f;} 
-	   
-	   
-	
+	   {total +=(r[t[n]][o[k]])*f;}
+
+
+
    }
    result[t[n]] = parseFloat(total.toFixed(2))
    totalf+=parseFloat(result[t[n]])
@@ -40,15 +43,19 @@ xhttp.onreadystatechange = function() {
   wp[g+'-'+m] = result;
   postMessage(wp);
 
-  return result;
+
 
     }
+
+  //  else{result = "Fail to load request Error Code: "+this.status}
 };
-xhttp.open("GET", 'http://192.168.1.218:5005/rest/'+g+'/'+m, false);
-xhttp.send();
+xhttp[g+m].open("GET", 'https://13.233.159.39:5005/rest/'+g+'/'+m, false);
+xhttp[g+m].send(null);
+
+ return  result;
  }
  return{
- form : form 
+ form : form
  }
  }
 
@@ -86,6 +93,7 @@ var windkuchhdim = dataobj('wind-kuchhdi',0.001).form('month')
 var windcharankam = dataobj('wind-charanka',0.001).form('month')
 var solarrooftopm = dataobj('solar-rooftop',0.001).form('month')
 
+//setTimeout(5000);
 /////////////////////////////////////////////////year//////////////////////////////////////////////////////////////
 
 var conventialgipcly = dataobj('convential-gipcl',1).form('year')
@@ -98,6 +106,11 @@ var windcharankay = dataobj('wind-charanka',0.001).form('year')
 var solarrooftopy = dataobj('solar-rooftop',0.001).form('year')
 
 }
-
+try {
 task();
-//setInterval(finction(){task();},5000)
+}
+catch(err) {
+ postMessage('Server Communication Error');
+
+}
+setInterval(function(){task();},10*60*1000)
